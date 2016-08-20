@@ -12,23 +12,42 @@
 <script type='text/javascript'>
 
   // Aca ponemos la referencia a su firebase
-  var messagesRef = new Firebase('https://algo.firebaseio-demo.com/');
+  var messagesRef = new Firebase('https://primerfirebase-a52b4.firebaseio.com/');
 
   // Cuando presionen el ENTER , guardamos los datos en firebase.
   $('#messageInput').keypress(function (e) {
     if (e.keyCode == 13) {
       var name = $('#nameInput').val();
       var text = $('#messageInput').val();
-      messagesRef.push({name:name, text:text});
+      var fecha = Firebase.ServerValue.TIMESTAMP;
+      var nuevafecha = new Date();
+      console.log(nuevafecha);
+      messagesRef.push({usuario:name, mensaje:text, fechaIngreso:fecha, fechastring:nuevafecha.toString()});
       $('#messageInput').val('');
+
     }
   });
 
   // agregamos la funcion que funciona de callback que es disparada por cada mensaje de chat.
-  messagesRef.on('child_added', function (snapshot) {
+  messagesRef.on('child_added', function (snapshot) 
+  {
     var message = snapshot.val();
-    $('<div/>').text(message.text).prepend($('<em/>').text(message.name+': ')).appendTo($('#messagesDiv'));
+    console.log(message);
+
+    if(message.fechaIngreso != null)
+    {
+      var fecha = new Date(message.fechaIngreso);
+    }
+    //console.log(fecha);
+    var hora = fecha.getHours();
+    var minutos = fecha.getMinutes();
+    var segundos = fecha.getSeconds();
+
+    $('<div/>').text(message.mensaje+" -> Enviado a las "+hora+":"+minutos+":"+segundos).prepend($('<em/>').text(message.usuario+': ')).appendTo($('#messagesDiv'));
+    
+    /*$('<div/>').text(message.mensaje+" -> Enviado a las "+message.fechaIngreso).prepend($('<em/>').text(message.usuario+': ')).appendTo($('#messagesDiv'));
     $('#messagesDiv')[0].scrollTop = $('#messagesDiv')[0].scrollHeight;
+    */
   });
 </script>
 </body>

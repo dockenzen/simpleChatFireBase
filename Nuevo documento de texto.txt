@@ -1,0 +1,12 @@
+1 - node.js 6.4 o sino la 4.4.2
+2 - $ npm install -g cordova ionic
+3 - android sdk
+4 - firebase documentos json en tiempo real. Base de datos.
+
+rippley para el formato del tubo
+
+
+
+ionic start nombreproyecto sidemenu
+cd nombreproyecto
+ionic serve
